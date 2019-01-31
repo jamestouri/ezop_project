@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:10.1-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    command: python /ezop_project/server.py runserver 0.0.0.0:5432
+    volumes:
+      - .:/ezop_project
+    ports:
+      - 5432:5432
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
